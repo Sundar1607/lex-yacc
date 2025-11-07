@@ -13,10 +13,8 @@ void yyerror(const char *s);
 
 %%
 stmt:
-      expr '\n'
-        { printf("\n..Valid Expression..\n"); exit(0); }
-    | error '\n'
-        { printf("\n..Invalid..\n"); exit(0); }
+      expr '\n'  { printf("\n..Valid Expression..\n"); exit(0); }
+    | error '\n' { printf("\n..Invalid..\n"); exit(0); }
     ;
 
 expr:
@@ -30,34 +28,9 @@ expr:
     ;
 %%
 
-int main()
-{
+int main(void) {
     printf("Enter an expression to validate: ");
     yyparse();
     return 0;
 }
-
-int yylex()
-{
-    int ch;
-
-    /* Skip spaces */
-    while ((ch = getchar()) == ' ')
-        ;
-
-    /* Digit → token num */
-    if (isdigit(ch))
-        return num;
-
-    /* Letter → token let */
-    if (isalpha(ch))
-        return let;
-
-    /* Return operator '(' ')' '+' '-' '*' '/' and '\n' */
-    return ch;
-}
-
-void yyerror(const char *s)
-{
-    printf("%s\n", s);
-}
+void yyerror(const char *s) { printf("Error: %s\n", s); }
